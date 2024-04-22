@@ -1,10 +1,8 @@
-import { CompaniesTableType } from "../lib/definitions";
+import { fetchFilteredCompanies } from "../lib/data";
 
-export default async function CompaniesTable({
-  companies,
-}: {
-  companies: CompaniesTableType[];
-}) {
+export default async function CompaniesTable({ query }: { query: string }) {
+  const companies = await fetchFilteredCompanies(query);
+
   return (
     <div className="relative overflow-x-auto">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -34,7 +32,11 @@ export default async function CompaniesTable({
                 {company.name}
               </th>
               <td className="px-6 py-4">{company.status}</td>
-              <td className="px-6 py-4">{company.date.toString()}</td>
+              <td className="px-6 py-4">{`${String(
+                company.date.getDate()
+              ).padStart(2, "0")}.${String(
+                company.date.getMonth() + 1
+              ).padStart(2, "0")}.${company.date.getFullYear()}`}</td>
             </tr>
           ))}
         </tbody>

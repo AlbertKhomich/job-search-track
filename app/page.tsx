@@ -1,12 +1,19 @@
 import CompaniesTable from "@/app/ui/table";
-import { fetchCompanies } from "./lib/data";
+import Search from "./ui/search";
 
-export default async function Home() {
-  const companies = await fetchCompanies();
+export default async function Home({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+  };
+}) {
+  const query = searchParams?.query || "";
 
   return (
     <main>
-      <CompaniesTable companies={companies} />
+      <Search placeholder="Search companies..." />
+      <CompaniesTable query={query} />
     </main>
   );
 }

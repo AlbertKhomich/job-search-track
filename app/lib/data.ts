@@ -2,6 +2,32 @@ import { sql } from "@vercel/postgres";
 import { unstable_noStore as noStore } from "next/cache";
 import { CompaniesTableType } from "./definitions";
 
+export async function fetchFilteredCompanies(query: string) {
+  noStore();
+
+  try {
+    const companies = await sql<CompaniesTableType>`
+        SELECT
+            actions.id,
+            companies.name,
+            actions.name AS status,
+            actions.date
+        FROM companies
+        JOIN actions ON companies.id = actions.company_id
+        WHERE
+            companies.name ILIKE ${`%${query}%`} OR
+            actions.name ILIKE ${`%${query}%`} OR
+            actions.date::text ILIKE ${`%${query}%`}
+        ORDER BY actions.date DESC
+        `;
+
+    return companies.rows;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch companies.");
+  }
+}
+
 export async function fetchCompanies() {
   noStore();
 
@@ -24,12 +50,6 @@ export async function fetchCompanies() {
     ORDER BY
         subquery.date DESC;
     `;
-    // const data = await sql<CompaniesTableType>`
-    // SELECT actions.id AS key, companies.name AS name, actions.name AS status, actions.date AS date
-    // FROM companies
-    // JOIN actions ON companies.id = actions.company_id
-    // ORDER BY actions.date DESC;
-    // `;
 
     return data.rows;
   } catch (error) {
