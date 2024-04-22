@@ -1,7 +1,12 @@
-export default function Home() {
+import CompaniesTable from "@/app/ui/table";
+import { fetchCompanies } from "./lib/data";
+
+export default async function Home() {
+  const companies = await fetchCompanies();
+
   return (
     <main>
-      <h1>Hello world!</h1>
+      <CompaniesTable companies={companies} />
     </main>
   );
 }
