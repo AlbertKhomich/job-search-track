@@ -1,5 +1,5 @@
 export type CompaniesTableType = {
-  key: string;
+  id: string;
   name: string;
   status: "Beworben" | "Absage" | "Vorstellungsgespräch" | "Angebot";
   date: string;

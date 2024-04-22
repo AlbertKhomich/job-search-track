@@ -10,7 +10,7 @@ export async function fetchCompanies() {
     SELECT *
     FROM (
         SELECT DISTINCT ON (companies.name)
-            actions.id AS key, 
+            actions.id AS id, 
             companies.name AS name, 
             actions.name AS status, 
             actions.date AS date
