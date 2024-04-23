@@ -2,7 +2,11 @@ import { sql } from "@vercel/postgres";
 import { unstable_noStore as noStore } from "next/cache";
 import { CompaniesTableType } from "./definitions";
 
-export async function fetchFilteredCompanies(query: string) {
+export async function fetchFilteredCompanies(
+  query: string,
+  dateStart: string,
+  dateEnd: string
+) {
   noStore();
 
   try {
@@ -15,9 +19,10 @@ export async function fetchFilteredCompanies(query: string) {
         FROM companies
         JOIN actions ON companies.id = actions.company_id
         WHERE
-            companies.name ILIKE ${`%${query}%`} OR
+            (actions.date BETWEEN ${`${dateStart}`} AND ${`${dateEnd}`}) AND
+            (companies.name ILIKE ${`%${query}%`} OR
             actions.name ILIKE ${`%${query}%`} OR
-            actions.date::text ILIKE ${`%${query}%`}
+            actions.date::text ILIKE ${`%${query}%`})
         ORDER BY actions.date DESC
         `;
 
@@ -55,5 +60,36 @@ export async function fetchCompanies() {
   } catch (error) {
     console.log("Database Error", error);
     throw new Error("Failed to fetch revenue data.");
+  }
+}
+
+export async function fetchDates() {
+  noStore();
+
+  try {
+    const dateStartPromise = sql`
+        SELECT actions.date FROM actions
+        ORDER BY actions.date
+        LIMIT 1
+        `;
+
+    const dateEndPromise = sql`
+        SELECT actions.date FROM actions
+        ORDER BY actions.date DESC
+        LIMIT 1
+        `;
+
+    const data = await Promise.all([dateStartPromise, dateEndPromise]);
+
+    const dateStart = data[0].rows[0].date.toLocaleString();
+    const dateEnd = data[1].rows[0].date.toLocaleString();
+
+    return {
+      dateStart,
+      dateEnd,
+    };
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch card data.");
   }
 }
