@@ -2,6 +2,7 @@ import CompaniesTable from "@/app/ui/table";
 import Search from "./ui/search";
 import { fetchDates } from "./lib/data";
 import DatePicker from "./ui/datepicker";
+import { DarkThemeToggle, Flowbite } from "flowbite-react";
 
 export default async function Home({
   searchParams,
@@ -19,6 +20,9 @@ export default async function Home({
 
   return (
     <main className="grid place-items-center">
+      <Flowbite>
+        <DarkThemeToggle className="mt-2" />
+      </Flowbite>
       <div className="md:w-6/12 mt-32 mx-4 md:mx-16 mb-32">
         <div className="mb-5 grid grid-cols-4">
           <div className="col-span-2 ml-3">

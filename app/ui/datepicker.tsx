@@ -35,7 +35,6 @@ export default function DatePicker() {
     <div className="grid grid-cols-2">
       <div className="mx-3">
         <Datepicker
-          theme={customThemeDatePicker}
           title="From"
           weekStart={1}
           defaultDate={new Date("2024.01.01")}
@@ -46,7 +45,6 @@ export default function DatePicker() {
       </div>
       <div className="mx-3">
         <Datepicker
-          theme={customThemeDatePicker}
           title="To"
           weekStart={1}
           onSelectedDateChanged={(date) => {
