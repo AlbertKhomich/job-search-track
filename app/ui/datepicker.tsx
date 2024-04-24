@@ -21,7 +21,7 @@ export default function DatePicker() {
     replace(`${pathname}?${params.toString()}`);
   }, 300);
 
-  const handleDateEnd = useDebouncedCallback((term) => {
+  const handleDateEnd = useDebouncedCallback((term: string) => {
     const params = new URLSearchParams(searchParams);
     if (term) {
       params.set("endDate", term);

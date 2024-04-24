@@ -8,7 +8,7 @@ export default async function Home({
 }: {
   searchParams?: {
     query?: string;
-    startDate?: Date;
+    startDate?: string;
     endDate?: string;
   };
 }) {
