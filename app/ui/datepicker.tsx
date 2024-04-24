@@ -4,7 +4,7 @@ import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import moment from "moment";
 import { Datepicker } from "flowbite-react";
-import { customThemeDatePicker } from "../themes/date-picker";
+import { tomorrow } from "../lib/utils";
 
 export default function DatePicker() {
   const searchParams = useSearchParams();
@@ -32,8 +32,8 @@ export default function DatePicker() {
   }, 300);
 
   return (
-    <div className="grid grid-cols-2">
-      <div className="mx-3">
+    <div className="inline-grid grid-cols-2">
+      <div className="w-auto mr-4">
         <Datepicker
           title="From"
           weekStart={1}
@@ -43,10 +43,11 @@ export default function DatePicker() {
           }}
         />
       </div>
-      <div className="mx-3">
+      <div className="w-auto">
         <Datepicker
           title="To"
           weekStart={1}
+          defaultDate={new Date(tomorrow)}
           onSelectedDateChanged={(date) => {
             handleDateEnd(moment(date).format("YYYY.MM.DD"));
           }}

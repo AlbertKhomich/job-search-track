@@ -61,7 +61,7 @@ async function seedActions(client) {
             id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
             company_id UUID NOT NULL,
             name VARCHAR(255) NOT NULL,
-            date DATE NOT NULL
+            date TIMESTAMP NOT NULL
         );
         `;
 
