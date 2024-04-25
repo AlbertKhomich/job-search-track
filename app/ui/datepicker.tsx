@@ -43,7 +43,7 @@ export default function DatePicker() {
           }}
         />
       </div>
-      <div className="w-auto">
+      <div className="w-auto mr-4">
         <Datepicker
           title="To"
           weekStart={1}

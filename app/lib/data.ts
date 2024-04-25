@@ -1,6 +1,6 @@
 import { sql } from "@vercel/postgres";
 import { unstable_noStore as noStore } from "next/cache";
-import { CompaniesTableType } from "./definitions";
+import { CompaniesTableType, ActionForm } from "./definitions";
 
 export async function fetchFilteredCompanies(
   query: string,
@@ -91,5 +91,28 @@ export async function fetchDates() {
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch card data.");
+  }
+}
+
+export async function fetchActionById(id: string) {
+  noStore();
+
+  try {
+    const data = await sql<ActionForm>`
+    SELECT 
+      actions.id,
+      actions.company_id,
+      actions.name AS status,
+      actions.date,
+      companies.name
+    FROM actions
+    JOIN companies ON actions.company_id = companies.id
+    WHERE actions.id = ${`${id}`}
+    `;
+
+    return data.rows[0];
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch action.");
   }
 }

@@ -20,12 +20,12 @@ export default async function Home({
     <main>
       <div className="mb-5 grid">
         <div className="flex">
-          <Search placeholder="Search companies..." />
           <div className="col">
             <div className="inline-grid">
               <DatePicker />
             </div>
           </div>
+          <Search placeholder="Search companies..." />
         </div>
       </div>
       <CompaniesTable query={query} startDate={startDate} endDate={endDate} />

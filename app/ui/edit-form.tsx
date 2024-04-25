@@ -1,20 +1,22 @@
 "use client";
 
-import { Button, Label, TextInput, Card, Radio } from "flowbite-react";
-import { addCompany } from "../lib/actions";
-import { Datepicker } from "flowbite-react";
+import {
+  Card,
+  Label,
+  TextInput,
+  Radio,
+  Datepicker,
+  Button,
+} from "flowbite-react";
+import { updateAction } from "../lib/actions";
+import { ActionForm } from "../lib/definitions";
+import { statuses } from "./create-form";
 import { useFormState } from "react-dom";
 
-export const statuses = [
-  "Beworben",
-  "Absage",
-  "Vorstellungsgespräch",
-  "Angebot",
-];
-
-export default function AddForm() {
+export default function EditActionForm({ action }: { action: ActionForm }) {
+  const updateActionWithId = updateAction.bind(null, action.id);
   const initialState = { message: "", errors: {} };
-  const [state, dispatch] = useFormState(addCompany, initialState);
+  const [state, dispatch] = useFormState(updateActionWithId, initialState);
 
   return (
     <Card className="max-w-sm w-full">
@@ -25,18 +27,19 @@ export default function AddForm() {
           </div>
           <TextInput
             id="companyName"
+            defaultValue={action.name}
             name="companyName"
             type="text"
             aria-describedby="company-error"
           />
-          <div id="company-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.name &&
-              state.errors.name.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-          </div>
+        </div>
+        <div id="company-error" aria-live="polite" aria-atomic="true">
+          {state.errors?.name &&
+            state.errors.name.map((error: string) => (
+              <p className="mt-2 text-sm text-red-500" key={error}>
+                {error}
+              </p>
+            ))}
         </div>
         <fieldset className="flex max-w-md flex-col gap-4">
           <legend className="mb-4">Set Status</legend>
@@ -47,14 +50,18 @@ export default function AddForm() {
                   id={status}
                   name="status"
                   value={status}
-                  defaultChecked={index === 0 ?? true}
+                  defaultChecked={status === action.status ?? true}
                 />
                 <Label htmlFor={status}>{status}</Label>
               </div>
             );
           })}
         </fieldset>
-        <Datepicker weekStart={1} name="date" />
+        <Datepicker
+          weekStart={1}
+          name="date"
+          defaultDate={new Date(action.date)}
+        />
         <Button type="submit">Save</Button>
       </form>
     </Card>

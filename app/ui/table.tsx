@@ -9,6 +9,7 @@ import {
   TableRow,
 } from "flowbite-react";
 import CounterCard from "./counter";
+import { DeleteAction, UpdateCompany } from "./buttons";
 
 export default async function CompaniesTable({
   query,
@@ -29,9 +30,12 @@ export default async function CompaniesTable({
           <TableHeadCell>Company</TableHeadCell>
           <TableHeadCell>Status</TableHeadCell>
           <TableHeadCell>Date</TableHeadCell>
-          {/* <TableHeadCell>
+          <TableHeadCell>
             <span className="sr-only">Edit</span>
-          </TableHeadCell> */}
+          </TableHeadCell>
+          <TableHeadCell>
+            <span className="sr-only">Delete</span>
+          </TableHeadCell>
         </TableHead>
         <TableBody className="divide-y">
           {companies?.map((company) => (
@@ -44,14 +48,12 @@ export default async function CompaniesTable({
               </TableCell>
               <TableCell>{company.status}</TableCell>
               <TableCell>{moment(company.date).format("DD.MM.YYYY")}</TableCell>
-              {/* <TableCell>
-                <a
-                  href="http://"
-                  className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                >
-                  Edit
-                </a>
-              </TableCell> */}
+              <TableCell>
+                <UpdateCompany id={company.id} />
+              </TableCell>
+              <TableCell>
+                <DeleteAction id={company.id} />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
