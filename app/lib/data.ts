@@ -25,7 +25,6 @@ export async function fetchFilteredCompanies(
             actions.date::text ILIKE ${`%${query}%`})
         ORDER BY actions.date DESC
         `;
-
     return companies.rows;
   } catch (error) {
     console.error("Database Error:", error);
@@ -78,11 +77,12 @@ export async function fetchDates() {
         ORDER BY actions.date DESC
         LIMIT 1
         `;
-
     const data = await Promise.all([dateStartPromise, dateEndPromise]);
 
-    const dateStart = data[0].rows[0].date.toLocaleString();
-    const dateEnd = data[1].rows[0].date.toLocaleString();
+    const dateStart: string = data[0].rows[0].date
+      .toLocaleString()
+      .split(",")[0];
+    const dateEnd: string = data[1].rows[0].date.toLocaleString().split(",")[0];
 
     return {
       dateStart,

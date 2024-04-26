@@ -1,7 +1,7 @@
 import CompaniesTable from "@/app/ui/table";
 import Search from "./ui/search";
 import DatePicker from "./ui/datepicker";
-import { tomorrow } from "./lib/utils";
+import { fetchDates } from "./lib/data";
 
 export default async function Home({
   searchParams,
@@ -12,17 +12,19 @@ export default async function Home({
     endDate?: string;
   };
 }) {
+  const { dateStart, dateEnd } = await fetchDates();
+
   const query = searchParams?.query || "";
-  const startDate =
-    searchParams?.startDate || new Date("01.01.2024").toISOString();
-  const endDate = searchParams?.endDate || tomorrow;
+  const startDate = searchParams?.startDate || dateStart;
+  const endDate = searchParams?.endDate || dateEnd;
+
   return (
     <main>
       <div className="mb-5 grid">
         <div className="flex">
           <div className="col">
             <div className="inline-grid">
-              <DatePicker />
+              <DatePicker dateStart={dateStart} dateEnd={dateEnd} />
             </div>
           </div>
           <Search placeholder="Search companies..." />

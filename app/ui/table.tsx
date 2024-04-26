@@ -21,7 +21,6 @@ export default async function CompaniesTable({
   endDate: string;
 }) {
   const companies = await fetchFilteredCompanies(query, startDate, endDate);
-
   return (
     <div className="overflow-x-auto">
       <CounterCard countTotal={companies.length} />

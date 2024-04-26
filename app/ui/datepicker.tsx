@@ -4,9 +4,14 @@ import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import moment from "moment";
 import { Datepicker } from "flowbite-react";
-import { tomorrow } from "../lib/utils";
 
-export default function DatePicker() {
+export default function DatePicker({
+  dateStart,
+  dateEnd,
+}: {
+  dateStart: string;
+  dateEnd: string;
+}) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -37,7 +42,8 @@ export default function DatePicker() {
         <Datepicker
           title="From"
           weekStart={1}
-          defaultDate={new Date("2024.01.01")}
+          name="from"
+          defaultDate={new Date(dateStart)}
           onSelectedDateChanged={(date) => {
             handleDateStart(moment(date).format("YYYY.MM.DD"));
           }}
@@ -46,8 +52,9 @@ export default function DatePicker() {
       <div className="w-auto mr-4">
         <Datepicker
           title="To"
+          name="to"
           weekStart={1}
-          defaultDate={new Date(tomorrow)}
+          defaultDate={new Date(dateEnd)}
           onSelectedDateChanged={(date) => {
             handleDateEnd(moment(date).format("YYYY.MM.DD"));
           }}
