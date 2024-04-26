@@ -1,4 +1,5 @@
 import { Card } from "flowbite-react";
+import { GrCheckboxSelected } from "react-icons/gr";
 
 export default function CounterCard({ countTotal }: { countTotal: number }) {
   return (

@@ -19,7 +19,9 @@ const AddFormSchema = z.object({
 
 const AddCompany = AddFormSchema.omit({ id: true });
 
-const UpdateAction = AddFormSchema.omit({ id: true });
+const UpdateAction = AddFormSchema.omit({ id: true, name: true });
+
+const EditAction = AddFormSchema.omit({ id: true });
 
 export type State = {
   errors?: {
@@ -73,12 +75,33 @@ export async function addCompany(prevState: State, formData: FormData) {
   redirect("/");
 }
 
-export async function updateAction(
+export async function updateAction(id: string, formData: FormData) {
+  const { status, date } = UpdateAction.parse({
+    status: formData.get("status"),
+    date: formData.get("date"),
+  });
+
+  try {
+    const currAction = await fetchActionById(id);
+
+    await sql`
+    INSERT INTO actions(name, company_id, date)
+    VALUES (${status}, ${currAction.company_id}, ${date})
+    `;
+  } catch (error) {
+    return { message: "Database Error: Failed to Update Company status." };
+  }
+
+  revalidatePath("/");
+  redirect("/");
+}
+
+export async function editAction(
   id: string,
   prevState: State,
   formData: FormData
 ) {
-  const validatedFields = UpdateAction.safeParse({
+  const validatedFields = EditAction.safeParse({
     name: formData.get("companyName"),
     status: formData.get("status"),
     date: formData.get("date"),

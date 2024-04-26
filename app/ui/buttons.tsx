@@ -1,25 +1,24 @@
 import Link from "next/link";
-import { deleteAction } from "../lib/actions";
+import { FaEdit } from "react-icons/fa";
 
-export function UpdateCompany({ id }: { id: string }) {
+export function EditCompany({ id }: { id: string }) {
   return (
     <Link
       href={`/action/${id}/edit`}
       className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
     >
-      Edit
+      <FaEdit className="w-5 h-5" />
     </Link>
   );
 }
 
-export function DeleteAction({ id }: { id: string }) {
-  const deleteActionWithId = deleteAction.bind(null, id);
-
+export function UpdateCompany({ id }: { id: string }) {
   return (
-    <form action={deleteActionWithId}>
-      <button className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
-        Delete
-      </button>
-    </form>
+    <Link
+      href={`/action/${id}/update`}
+      className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+    >
+      Update
+    </Link>
   );
 }

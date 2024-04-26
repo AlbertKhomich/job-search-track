@@ -9,7 +9,9 @@ import {
   TableRow,
 } from "flowbite-react";
 import CounterCard from "./counter";
-import { DeleteAction, UpdateCompany } from "./buttons";
+import { EditCompany, UpdateCompany } from "./buttons";
+import { DeleteAction } from "./deleteModal";
+import { Badge } from "flowbite-react";
 
 export default async function CompaniesTable({
   query,
@@ -20,7 +22,16 @@ export default async function CompaniesTable({
   startDate: string;
   endDate: string;
 }) {
+  const badges = {
+    Beworben: "gray",
+    beworben: "gray",
+    Absage: "failure",
+    Vorstellungsgespräch: "warning",
+    Angebot: "success",
+  };
+
   const companies = await fetchFilteredCompanies(query, startDate, endDate);
+
   return (
     <div className="overflow-x-auto">
       <CounterCard countTotal={companies.length} />
@@ -29,6 +40,9 @@ export default async function CompaniesTable({
           <TableHeadCell>Company</TableHeadCell>
           <TableHeadCell>Status</TableHeadCell>
           <TableHeadCell>Date</TableHeadCell>
+          <TableHeadCell>
+            <span className="sr-only">Update</span>
+          </TableHeadCell>
           <TableHeadCell>
             <span className="sr-only">Edit</span>
           </TableHeadCell>
@@ -45,13 +59,22 @@ export default async function CompaniesTable({
               <TableCell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                 {company.name}
               </TableCell>
-              <TableCell>{company.status}</TableCell>
+              <TableCell>
+                <div className="flex flex-wrap gap-2">
+                  <Badge color={badges[`${company.status}`]}>
+                    {company.status}
+                  </Badge>
+                </div>
+              </TableCell>
               <TableCell>{moment(company.date).format("DD.MM.YYYY")}</TableCell>
               <TableCell>
                 <UpdateCompany id={company.id} />
               </TableCell>
               <TableCell>
-                <DeleteAction id={company.id} />
+                <EditCompany id={company.id} />
+              </TableCell>
+              <TableCell>
+                <DeleteAction id={company.id} companyTitle={company.name} />
               </TableCell>
             </TableRow>
           ))}

@@ -25,7 +25,7 @@ export default function RootLayout({
         className={`${inter.className} bg-gray-300 dark:bg-gray-600 dark:text-gray-100`}
       >
         <div className="grid place-items-center mx-4">
-          <div className="mt-16 mb-32 w-full xl:w-3/5">
+          <div className="mt-16 mb-32 w-full xl:w-4/5">
             <NavbarMain />
             {children}
           </div>
