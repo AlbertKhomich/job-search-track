@@ -1,6 +1,7 @@
 import { sql } from "@vercel/postgres";
 import { unstable_noStore as noStore } from "next/cache";
 import { CompaniesTableType, ActionForm } from "./definitions";
+import moment from "moment";
 
 export const ITEMS_PER_PAGE = 10;
 
@@ -84,11 +85,9 @@ export async function fetchDates() {
         `;
     const data = await Promise.all([dateStartPromise, dateEndPromise]);
 
-    const dateStart: string = data[0].rows[0].date
-      .toLocaleString()
-      .split(",")[0];
-    const dateEnd: string = data[1].rows[0].date.toLocaleString().split(",")[0];
-
+    const dateStart: string = moment(data[0].rows[0].date).format("MM/DD/YYYY");
+    const dateEnd: string = moment(data[1].rows[0].date).format("MM/DD/YYYY");
+    console.log(dateStart);
     return {
       dateStart,
       dateEnd,
