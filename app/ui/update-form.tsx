@@ -10,7 +10,9 @@ import {
 } from "flowbite-react";
 import { updateAction } from "../lib/actions";
 import { ActionForm } from "../lib/definitions";
-import { statuses } from "./create-form";
+import { statuses, colors } from "./create-form";
+import { Badge } from "flowbite-react";
+import SaveButton from "./save-button";
 
 export default function UpdateActionForm({ action }: { action: ActionForm }) {
   const updateActionWithId = updateAction.bind(null, action.id);
@@ -41,13 +43,17 @@ export default function UpdateActionForm({ action }: { action: ActionForm }) {
                   value={status}
                   defaultChecked={status === action.status ?? true}
                 />
-                <Label htmlFor={status}>{status}</Label>
+                <Label htmlFor={status}>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge color={colors[index]}>{status}</Badge>
+                  </div>
+                </Label>
               </div>
             );
           })}
         </fieldset>
         <Datepicker weekStart={1} name="date" />
-        <Button type="submit">Save</Button>
+        <SaveButton />
       </form>
     </Card>
   );

@@ -2,12 +2,16 @@ import { sql } from "@vercel/postgres";
 import { unstable_noStore as noStore } from "next/cache";
 import { CompaniesTableType, ActionForm } from "./definitions";
 
+export const ITEMS_PER_PAGE = 10;
+
 export async function fetchFilteredCompanies(
   query: string,
   dateStart: string,
-  dateEnd: string
+  dateEnd: string,
+  currentPage: number
 ) {
   noStore();
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
     const companies = await sql<CompaniesTableType>`
@@ -23,7 +27,8 @@ export async function fetchFilteredCompanies(
             (companies.name ILIKE ${`%${query}%`} OR
             actions.name ILIKE ${`%${query}%`} OR
             actions.date::text ILIKE ${`%${query}%`})
-        ORDER BY actions.date DESC
+        ORDER BY actions.date DESC, actions.id
+        LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
         `;
     return companies.rows;
   } catch (error) {
@@ -90,7 +95,7 @@ export async function fetchDates() {
     };
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Failed to fetch card data.");
+    throw new Error("Failed to fetch dates.");
   }
 }
 
@@ -114,5 +119,30 @@ export async function fetchActionById(id: string) {
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch action.");
+  }
+}
+
+export async function fetchActionsPage(
+  query: string,
+  dateStart: string,
+  dateEnd: string
+) {
+  noStore();
+  try {
+    const count = await sql`SELECT COUNT(*)
+        FROM companies
+        JOIN actions ON companies.id = actions.company_id
+        WHERE
+            (actions.date BETWEEN ${`${dateStart}`} AND ${`${dateEnd}`}) AND
+            (companies.name ILIKE ${`%${query}%`} OR
+            actions.name ILIKE ${`%${query}%`} OR
+            actions.date::text ILIKE ${`%${query}%`})`;
+
+    const totalRows = Number(count.rows[0].count);
+    const totalPages = Math.ceil(Number(totalRows / ITEMS_PER_PAGE));
+    return { totalRows, totalPages };
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch total number of actions.");
   }
 }

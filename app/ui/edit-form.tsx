@@ -10,14 +10,16 @@ import {
 } from "flowbite-react";
 import { editAction } from "../lib/actions";
 import { ActionForm } from "../lib/definitions";
-import { statuses } from "./create-form";
-import { useFormState } from "react-dom";
+import { statuses, colors } from "./create-form";
+import { useFormState, useFormStatus } from "react-dom";
+import { Badge } from "flowbite-react";
+import SaveButton from "./save-button";
 
 export default function EditActionForm({ action }: { action: ActionForm }) {
   const updateActionWithId = editAction.bind(null, action.id);
   const initialState = { message: "", errors: {} };
   const [state, dispatch] = useFormState(updateActionWithId, initialState);
-
+  // await new Promise((resolve) => setTimeout(resolve, 3000));
   return (
     <Card className="max-w-sm w-full">
       <form action={dispatch} className="flex flex-col gap-4">
@@ -52,7 +54,11 @@ export default function EditActionForm({ action }: { action: ActionForm }) {
                   value={status}
                   defaultChecked={status === action.status ?? true}
                 />
-                <Label htmlFor={status}>{status}</Label>
+                <Label htmlFor={status}>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge color={colors[index]}>{status}</Badge>
+                  </div>
+                </Label>
               </div>
             );
           })}
@@ -62,7 +68,7 @@ export default function EditActionForm({ action }: { action: ActionForm }) {
           name="date"
           defaultDate={new Date(action.date)}
         />
-        <Button type="submit">Save</Button>
+        <SaveButton />
       </form>
     </Card>
   );

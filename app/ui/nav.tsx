@@ -11,6 +11,7 @@ import {
 import { Flowbite } from "flowbite-react";
 import { DarkThemeToggle } from "flowbite-react";
 import { usePathname } from "next/navigation";
+import { TbReportSearch } from "react-icons/tb";
 
 const links = [
   { name: "Report", href: "/" },
@@ -23,6 +24,7 @@ export function NavbarMain() {
   return (
     <Navbar fluid rounded className="w-full mb-8">
       <NavbarBrand as={Link} href="/">
+        <TbReportSearch className="w-10 h-10 mr-3" />
         Job Report
       </NavbarBrand>
       <div className="flex md:order-2">

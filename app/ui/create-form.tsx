@@ -1,9 +1,11 @@
 "use client";
 
-import { Button, Label, TextInput, Card, Radio } from "flowbite-react";
+import { Label, TextInput, Card, Radio } from "flowbite-react";
 import { addCompany } from "../lib/actions";
 import { Datepicker } from "flowbite-react";
 import { useFormState } from "react-dom";
+import { Badge } from "flowbite-react";
+import SaveButton from "./save-button";
 
 export const statuses = [
   "Beworben",
@@ -11,6 +13,8 @@ export const statuses = [
   "Vorstellungsgespräch",
   "Angebot",
 ];
+
+export const colors = ["gray", "failure", "warning", "success"];
 
 export default function AddForm() {
   const initialState = { message: "", errors: {} };
@@ -49,13 +53,17 @@ export default function AddForm() {
                   value={status}
                   defaultChecked={index === 0 ?? true}
                 />
-                <Label htmlFor={status}>{status}</Label>
+                <Label htmlFor={status}>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge color={colors[index]}>{status}</Badge>
+                  </div>
+                </Label>
               </div>
             );
           })}
         </fieldset>
         <Datepicker weekStart={1} name="date" />
-        <Button type="submit">Save</Button>
+        <SaveButton />
       </form>
     </Card>
   );

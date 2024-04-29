@@ -13,28 +13,37 @@ import { EditCompany, UpdateCompany } from "./buttons";
 import { DeleteAction } from "./deleteModal";
 import { Badge } from "flowbite-react";
 
+const badges = {
+  Beworben: "gray",
+  beworben: "gray",
+  Absage: "failure",
+  Vorstellungsgespräch: "warning",
+  Angebot: "success",
+};
+
 export default async function CompaniesTable({
   query,
   startDate,
   endDate,
+  currentPage,
+  totalRows,
 }: {
   query: string;
   startDate: string;
   endDate: string;
+  currentPage: number;
+  totalRows: number;
 }) {
-  const badges = {
-    Beworben: "gray",
-    beworben: "gray",
-    Absage: "failure",
-    Vorstellungsgespräch: "warning",
-    Angebot: "success",
-  };
-
-  const companies = await fetchFilteredCompanies(query, startDate, endDate);
+  const companies = await fetchFilteredCompanies(
+    query,
+    startDate,
+    endDate,
+    currentPage
+  );
 
   return (
     <div className="overflow-x-auto">
-      <CounterCard countTotal={companies.length} />
+      <CounterCard countTotal={totalRows} />
       <Table striped>
         <TableHead>
           <TableHeadCell>Company</TableHeadCell>

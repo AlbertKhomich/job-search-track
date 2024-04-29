@@ -1,7 +1,10 @@
 import CompaniesTable from "@/app/ui/table";
 import Search from "./ui/search";
 import DatePicker from "./ui/datepicker";
-import { fetchDates } from "./lib/data";
+import { fetchDates, fetchActionsPage } from "./lib/data";
+import { Suspense } from "react";
+import { FullTableSkeleton } from "./ui/skeletons";
+import Pagination from "./ui/pagination";
 
 export default async function Home({
   searchParams,
@@ -10,6 +13,7 @@ export default async function Home({
     query?: string;
     startDate?: string;
     endDate?: string;
+    page?: string;
   };
 }) {
   const { dateStart, dateEnd } = await fetchDates();
@@ -17,6 +21,13 @@ export default async function Home({
   const query = searchParams?.query || "";
   const startDate = searchParams?.startDate || dateStart;
   const endDate = searchParams?.endDate || dateEnd;
+  const currentPage = Number(searchParams?.page) || 1;
+
+  const { totalRows, totalPages } = await fetchActionsPage(
+    query,
+    startDate,
+    endDate
+  );
 
   return (
     <main>
@@ -30,7 +41,18 @@ export default async function Home({
           <Search placeholder="Search companies..." />
         </div>
       </div>
-      <CompaniesTable query={query} startDate={startDate} endDate={endDate} />
+      <Suspense fallback={<FullTableSkeleton />}>
+        <CompaniesTable
+          query={query}
+          startDate={startDate}
+          endDate={endDate}
+          currentPage={currentPage}
+          totalRows={totalRows}
+        />
+      </Suspense>
+      <div className="grid place-items-center">
+        <Pagination totalPages={totalPages} />
+      </div>
     </main>
   );
 }
