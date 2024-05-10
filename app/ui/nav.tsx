@@ -1,25 +1,17 @@
-"use client";
-
 import Link from "next/link";
 import {
   Navbar,
   NavbarBrand,
   NavbarCollapse,
-  NavbarLink,
   NavbarToggle,
 } from "flowbite-react";
-import { Flowbite } from "flowbite-react";
-import { DarkThemeToggle } from "flowbite-react";
-import { usePathname } from "next/navigation";
+import { Flowbite, DarkThemeToggle } from "flowbite-react";
 import { TbReportSearch } from "react-icons/tb";
+import { auth, signOut } from "@/auth";
+import NavLinks from "./nav-links";
 
-const links = [
-  { name: "Report", href: "/" },
-  { name: "Add", href: "/create" },
-];
-
-export function NavbarMain() {
-  const pathname = usePathname();
+export default async function NavbarMain() {
+  const session = await auth();
 
   return (
     <Navbar fluid rounded className="w-full mb-8">
@@ -34,17 +26,19 @@ export function NavbarMain() {
         <NavbarToggle />
       </div>
       <NavbarCollapse>
-        {links.map((link) => {
-          return (
-            <NavbarLink
-              key={link.name}
-              href={link.href}
-              active={pathname === link.href ?? true}
-            >
-              {link.name}
-            </NavbarLink>
-          );
-        })}
+        <NavLinks />
+        {session?.user ? (
+          <form
+            action={async () => {
+              "use server";
+              await signOut();
+            }}
+          >
+            <button>Sign Out</button>
+          </form>
+        ) : (
+          <Link href={"/login"}>Log In</Link>
+        )}
       </NavbarCollapse>
     </Navbar>
   );

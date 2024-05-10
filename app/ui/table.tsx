@@ -12,6 +12,7 @@ import CounterCard from "./counter";
 import { EditCompany, UpdateCompany } from "./buttons";
 import { DeleteAction } from "./deleteModal";
 import { Badge } from "flowbite-react";
+import { auth } from "@/auth";
 
 const badges = {
   Beworben: "gray",
@@ -41,6 +42,8 @@ export default async function CompaniesTable({
     currentPage
   );
 
+  const session = await auth();
+
   return (
     <div className="overflow-x-auto">
       <CounterCard countTotal={totalRows} />
@@ -49,15 +52,19 @@ export default async function CompaniesTable({
           <TableHeadCell>Company</TableHeadCell>
           <TableHeadCell>Status</TableHeadCell>
           <TableHeadCell>Date</TableHeadCell>
-          <TableHeadCell>
-            <span className="sr-only">Update</span>
-          </TableHeadCell>
-          <TableHeadCell>
-            <span className="sr-only">Edit</span>
-          </TableHeadCell>
-          <TableHeadCell>
-            <span className="sr-only">Delete</span>
-          </TableHeadCell>
+          {session?.user && (
+            <>
+              <TableHeadCell>
+                <span className="sr-only">Update</span>
+              </TableHeadCell>
+              <TableHeadCell>
+                <span className="sr-only">Edit</span>
+              </TableHeadCell>
+              <TableHeadCell>
+                <span className="sr-only">Delete</span>
+              </TableHeadCell>
+            </>
+          )}
         </TableHead>
         <TableBody className="divide-y">
           {companies?.map((company) => (
@@ -76,15 +83,19 @@ export default async function CompaniesTable({
                 </div>
               </TableCell>
               <TableCell>{moment(company.date).format("DD.MM.YYYY")}</TableCell>
-              <TableCell>
-                <UpdateCompany id={company.id} />
-              </TableCell>
-              <TableCell>
-                <EditCompany id={company.id} />
-              </TableCell>
-              <TableCell>
-                <DeleteAction id={company.id} companyTitle={company.name} />
-              </TableCell>
+              {session?.user && (
+                <>
+                  <TableCell>
+                    <UpdateCompany id={company.id} />
+                  </TableCell>
+                  <TableCell>
+                    <EditCompany id={company.id} />
+                  </TableCell>
+                  <TableCell>
+                    <DeleteAction id={company.id} companyTitle={company.name} />
+                  </TableCell>
+                </>
+              )}
             </TableRow>
           ))}
         </TableBody>

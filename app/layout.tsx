@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeModeScript } from "flowbite-react";
-import { NavbarMain } from "./ui/nav";
+import NavbarMain from "./ui/nav";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description: "List of all my CV, that i sent.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -28,6 +28,7 @@ export default function RootLayout({
           <div className="mt-16 mb-32 w-full xl:w-4/5">
             <NavbarMain />
             {children}
+            {/* <SessionProvider>{children}</SessionProvider> */}
           </div>
         </div>
       </body>

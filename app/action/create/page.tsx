@@ -1,4 +1,4 @@
-import AddForm from "../ui/create-form";
+import AddForm from "../../ui/create-form";
 
 export default async function Page() {
   return (

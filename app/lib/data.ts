@@ -87,7 +87,7 @@ export async function fetchDates() {
 
     const dateStart: string = moment(data[0].rows[0].date).format("MM/DD/YYYY");
     const dateEnd: string = moment(data[1].rows[0].date).format("MM/DD/YYYY");
-    console.log(dateStart);
+
     return {
       dateStart,
       dateEnd,
