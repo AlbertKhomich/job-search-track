@@ -5,7 +5,6 @@ import { z } from "zod";
 import { sql } from "@vercel/postgres";
 import type { User } from "./app/lib/definitions";
 import bcrypt from "bcrypt";
-import { revalidatePath } from "next/cache";
 
 async function getUser(email: string): Promise<User | undefined> {
   try {

@@ -91,6 +91,9 @@ export async function addCompany(prevState: State, formData: FormData) {
       message: "Database Error: Failed to create Action.",
     };
   }
+
+  revalidatePath("/");
+  redirect("/");
 }
 
 export async function updateAction(id: string, formData: FormData) {
