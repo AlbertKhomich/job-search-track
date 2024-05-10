@@ -1,4 +1,5 @@
 import { NextAuthConfig } from "next-auth";
+import { revalidatePath } from "next/cache";
 
 export const authConfig = {
   pages: {
@@ -13,10 +14,10 @@ export const authConfig = {
       if (isOnCreate) {
         if (isLoggedIn) return true;
         return false;
-      } else if (isLoggedIn && isOnLogIn) {
-        return Response.redirect(new URL("/", nextUrl));
       }
-
+      // else if (isLoggedIn && isOnLogIn) {
+      //   return Response.redirect(new URL("/", nextUrl));
+      // }
       return true;
     },
   },

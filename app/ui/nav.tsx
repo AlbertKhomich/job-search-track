@@ -4,6 +4,7 @@ import {
   NavbarBrand,
   NavbarCollapse,
   NavbarToggle,
+  Button,
 } from "flowbite-react";
 import { Flowbite, DarkThemeToggle } from "flowbite-react";
 import { TbReportSearch } from "react-icons/tb";
@@ -21,12 +22,8 @@ export default async function NavbarMain() {
       </NavbarBrand>
       <div className="flex md:order-2">
         <Flowbite>
-          <DarkThemeToggle />
+          <DarkThemeToggle className="mr-3" />
         </Flowbite>
-        <NavbarToggle />
-      </div>
-      <NavbarCollapse>
-        <NavLinks />
         {session?.user ? (
           <form
             action={async () => {
@@ -34,11 +31,15 @@ export default async function NavbarMain() {
               await signOut();
             }}
           >
-            <button>Sign Out</button>
+            <Button type="submit">Sign Out</Button>
           </form>
         ) : (
-          <Link href={"/login"}>Log In</Link>
+          <Button href="/login">Sign In</Button>
         )}
+        <NavbarToggle />
+      </div>
+      <NavbarCollapse>
+        <NavLinks />
       </NavbarCollapse>
     </Navbar>
   );

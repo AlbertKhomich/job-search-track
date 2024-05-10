@@ -8,13 +8,16 @@ actions = [];
 for (const name in jsonData) {
   currentId = uuid();
   companies.push({ id: currentId, name: name });
-  for (const status in jsonData[name]) {
-    actions.push({
-      id: uuid(),
-      company_id: currentId,
-      name: status,
-      date: jsonData[name][status],
-    });
+  for (let i in jsonData[name]) {
+    for (const status in jsonData[name][i]) {
+      const date = jsonData[name][i][status];
+      actions.push({
+        id: uuid(),
+        company_id: currentId,
+        name: status,
+        date: date,
+      });
+    }
   }
 }
 
