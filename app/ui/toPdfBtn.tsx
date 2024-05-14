@@ -36,7 +36,13 @@ export default function MakePdf({
     doc.setFontSize(18);
     doc.text("Job Report - Albert Khomich", 20, 20);
     doc.setFontSize(15);
-    doc.text(`For time: ${startDate} - ${endDate}`, 20, 30);
+    doc.text(
+      `For time: ${moment(startDate).format("DD.MM.YYYY")} - ${moment(
+        endDate
+      ).format("DD.MM.YYYY")}`,
+      20,
+      30
+    );
     search !== "" && doc.text(`For request: '${search}'`, 20, 40);
     autoTable(doc, {
       head: [["", "Company", "Status", "Date"]],
