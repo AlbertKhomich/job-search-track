@@ -5,6 +5,36 @@ import moment from "moment";
 
 export const ITEMS_PER_PAGE = 10;
 
+export async function fetchFilteredCompaniesWithoutOffset(
+  query: string,
+  dateStart: string,
+  dateEnd: string
+) {
+  noStore();
+
+  try {
+    const companies = await sql<CompaniesTableType>`
+    SELECT
+      actions.id,
+      companies.name,
+      actions.name AS status,
+      actions.date
+    FROM companies
+    JOIN actions ON companies.id = actions.company_id
+    WHERE
+      (actions.date BETWEEN ${`${dateStart}`} AND ${`${dateEnd}`}) AND
+      (companies.name ILIKE ${`%${query}%`} OR
+      actions.name ILIKE ${`%${query}%`} OR
+      actions.date::text ILIKE ${`%${query}%`})
+    ORDER BY actions.date DESC, actions.id`;
+
+    return companies.rows;
+  } catch (error) {
+    console.log("Database Error:", error);
+    throw new Error("Failed to fetch companies.");
+  }
+}
+
 export async function fetchFilteredCompanies(
   query: string,
   dateStart: string,

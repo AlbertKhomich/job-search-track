@@ -1,4 +1,7 @@
-import { fetchFilteredCompanies } from "../lib/data";
+import {
+  fetchFilteredCompanies,
+  fetchFilteredCompaniesWithoutOffset,
+} from "../lib/data";
 import moment from "moment";
 import {
   Table,
@@ -13,6 +16,7 @@ import { EditCompany, UpdateCompany } from "./buttons";
 import { DeleteAction } from "./deleteModal";
 import { Badge } from "flowbite-react";
 import { auth } from "@/auth";
+import MakePdf from "@/app/ui/toPdfBtn";
 
 const badges = {
   Beworben: "gray",
@@ -42,11 +46,27 @@ export default async function CompaniesTable({
     currentPage
   );
 
+  const pdf = await fetchFilteredCompaniesWithoutOffset(
+    query,
+    startDate,
+    endDate
+  );
+
   const session = await auth();
 
   return (
     <div className="overflow-x-auto">
-      <CounterCard countTotal={totalRows} />
+      <div className="flex">
+        <CounterCard countTotal={totalRows} />
+        <div className="ml-5 mb-5 content-end">
+          <MakePdf
+            rows={pdf}
+            startDate={startDate}
+            endDate={endDate}
+            search={query}
+          />
+        </div>
+      </div>
       <Table striped>
         <TableHead>
           <TableHeadCell>Company</TableHeadCell>

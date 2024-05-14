@@ -1,6 +1,6 @@
 "use server";
 
-import { z } from "zod";
+import { ZodError, z } from "zod";
 import { sql } from "@vercel/postgres";
 import { uuid } from "uuidv4";
 import { revalidatePath } from "next/cache";

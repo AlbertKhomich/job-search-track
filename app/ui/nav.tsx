@@ -36,7 +36,7 @@ export default async function NavbarMain() {
         ) : (
           <Button href="/login">Sign In</Button>
         )}
-        <NavbarToggle />
+        <NavbarToggle className="ml-3" />
       </div>
       <NavbarCollapse>
         <NavLinks />
