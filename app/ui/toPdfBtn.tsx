@@ -18,6 +18,10 @@ export default function MakePdf({
   endDate: string;
   search: string;
 }) {
+  const formatDate = (date: string) => {
+    return moment(new Date(date.replace(/\./g, "-"))).format("DD.MM.YYYY");
+  };
+
   const makeBody = (rows: CompaniesTableType[]) => {
     const result: string[][] = [];
     rows.forEach((row, i) => {
@@ -37,9 +41,7 @@ export default function MakePdf({
     doc.text("Job Report - Albert Khomich", 20, 20);
     doc.setFontSize(15);
     doc.text(
-      `For time: ${moment(startDate).format("DD.MM.YYYY")} - ${moment(
-        endDate
-      ).format("DD.MM.YYYY")}`,
+      `For time: ${formatDate(startDate)} - ${formatDate(endDate)}`,
       20,
       30
     );
