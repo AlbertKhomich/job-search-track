@@ -67,59 +67,72 @@ export default async function CompaniesTable({
           />
         </div>
       </div>
-      <Table striped>
-        <TableHead>
-          <TableHeadCell>Company</TableHeadCell>
-          <TableHeadCell>Status</TableHeadCell>
-          <TableHeadCell>Date</TableHeadCell>
-          {session?.user && (
-            <>
-              <TableHeadCell>
-                <span className="sr-only">Update</span>
-              </TableHeadCell>
-              <TableHeadCell>
-                <span className="sr-only">Edit</span>
-              </TableHeadCell>
-              <TableHeadCell>
-                <span className="sr-only">Delete</span>
-              </TableHeadCell>
-            </>
-          )}
-        </TableHead>
-        <TableBody className="divide-y">
-          {companies?.map((company) => (
-            <TableRow
-              key={company.id}
-              className="bg-white dark:border-gray-700 dark:bg-gray-800"
-            >
-              <TableCell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {company.name}
-              </TableCell>
-              <TableCell>
-                <div className="flex flex-wrap gap-2">
-                  <Badge color={badges[`${company.status}`]}>
-                    {company.status}
-                  </Badge>
-                </div>
-              </TableCell>
-              <TableCell>{moment(company.date).format("DD.MM.YYYY")}</TableCell>
-              {session?.user && (
-                <>
-                  <TableCell>
-                    <UpdateCompany id={company.id} />
-                  </TableCell>
-                  <TableCell>
-                    <EditCompany id={company.id} />
-                  </TableCell>
-                  <TableCell>
-                    <DeleteAction id={company.id} companyTitle={company.name} />
-                  </TableCell>
-                </>
-              )}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      {companies.length > 0 ? (
+        <Table striped>
+          <TableHead>
+            <TableHeadCell>Company</TableHeadCell>
+            <TableHeadCell>Status</TableHeadCell>
+            <TableHeadCell>Date</TableHeadCell>
+            {session?.user && (
+              <>
+                <TableHeadCell>
+                  <span className="sr-only">Update</span>
+                </TableHeadCell>
+                <TableHeadCell>
+                  <span className="sr-only">Edit</span>
+                </TableHeadCell>
+                <TableHeadCell>
+                  <span className="sr-only">Delete</span>
+                </TableHeadCell>
+              </>
+            )}
+          </TableHead>
+          <TableBody className="divide-y">
+            {companies?.map((company) => (
+              <TableRow
+                key={company.id}
+                className="bg-white dark:border-gray-700 dark:bg-gray-800"
+              >
+                <TableCell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {company.name}
+                </TableCell>
+                <TableCell>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge color={badges[`${company.status}`]}>
+                      {company.status}
+                    </Badge>
+                  </div>
+                </TableCell>
+                <TableCell>
+                  {moment(company.date).format("DD.MM.YYYY")}
+                </TableCell>
+                {session?.user && (
+                  <>
+                    <TableCell>
+                      <UpdateCompany id={company.id} />
+                    </TableCell>
+                    <TableCell>
+                      <EditCompany id={company.id} />
+                    </TableCell>
+                    <TableCell>
+                      <DeleteAction
+                        id={company.id}
+                        companyTitle={company.name}
+                      />
+                    </TableCell>
+                  </>
+                )}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      ) : (
+        <div className="text-center mt-12">
+          <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            No matches
+          </h5>
+        </div>
+      )}
     </div>
   );
 }

@@ -51,7 +51,7 @@ export default async function Home({
         />
       </Suspense>
       <div className="grid place-items-center">
-        <Pagination totalPages={totalPages} />
+        {totalPages > 0 && <Pagination totalPages={totalPages} />}
       </div>
     </main>
   );
