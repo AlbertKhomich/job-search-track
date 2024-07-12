@@ -17,9 +17,12 @@ export function DeleteAction({
 
   return (
     <>
-      <Button onClick={() => setOpenModal(true)}>
-        <MdDeleteForever className="w-5 h-5" />
-      </Button>
+      <button
+        className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+        onClick={() => setOpenModal(true)}
+      >
+        <MdDeleteForever className=" h-5 w-5" />
+      </button>
       <Modal
         show={openModal}
         size="md"
@@ -38,6 +41,7 @@ export function DeleteAction({
                 color="failure"
                 onClick={() => {
                   deleteAction(id);
+                  window.location.reload();
                   setOpenModal(false);
                 }}
               >

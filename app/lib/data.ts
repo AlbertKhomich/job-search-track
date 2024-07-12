@@ -1,9 +1,11 @@
+"use server";
+
 import { sql } from "@vercel/postgres";
 import { unstable_noStore as noStore } from "next/cache";
 import { CompaniesTableType, ActionForm } from "./definitions";
 import moment from "moment";
 
-export const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 20;
 
 export async function fetchFilteredCompaniesWithoutOffset(
   query: string,

@@ -4,7 +4,6 @@ import DatePicker from "./ui/datepicker";
 import { fetchDates, fetchActionsPage } from "./lib/data";
 import { Suspense } from "react";
 import { FullTableSkeleton } from "./ui/skeletons";
-import Pagination from "./ui/pagination";
 
 export default async function Home({
   searchParams,
@@ -48,11 +47,12 @@ export default async function Home({
           endDate={endDate}
           currentPage={currentPage}
           totalRows={totalRows}
+          totalPages={totalPages}
         />
       </Suspense>
-      <div className="grid place-items-center">
+      {/* <div className="grid place-items-center">
         {totalPages > 0 && <Pagination totalPages={totalPages} />}
-      </div>
+      </div> */}
     </main>
   );
 }
