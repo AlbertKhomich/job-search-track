@@ -29,18 +29,18 @@ export default function Company({
 
   return (
     <>
-      <Card className="w-full md:w-8/12 mb-1">
-        <div className="flex">
+      <Card className="w-full lg:w-8/12 mb-1">
+        <div className="sm:flex">
           <div className="flex-1">
-            <p className=" text-gray-900 dark:text-white font-bold">
+            <p className="pb-2 md:pb-0 text-gray-900 dark:text-white font-bold">
               {name}&nbsp;
             </p>
           </div>
-          <div>
+          <div className="flex">
             <Badge color={badges[`${status}`]}>{status}&nbsp;</Badge>
           </div>
           <div>
-            <p className=" text-gray-600 dark:text-gray-400 text-end ms-5">
+            <p className="pt-2 md:pt-0 text-gray-600 dark:text-gray-400 text-end ms-5">
               {d}&nbsp;
             </p>
           </div>
