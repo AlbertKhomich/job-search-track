@@ -31,13 +31,11 @@ export default async function Home({
   return (
     <main>
       <div className="mb-5 grid">
-        <div className="flex">
-          <div className="col">
-            <div className="inline-grid">
-              <DatePicker dateStart={dateStart} dateEnd={dateEnd} />
-            </div>
+        <div className="md:flex">
+          <DatePicker dateStart={dateStart} dateEnd={dateEnd} />
+          <div className="flex-1 mt-5 md:mt-0">
+            <Search placeholder="Search companies..." />
           </div>
-          <Search placeholder="Search companies..." />
         </div>
       </div>
       <Suspense fallback={<FullTableSkeleton />}>

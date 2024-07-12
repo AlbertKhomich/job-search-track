@@ -37,8 +37,8 @@ export default function DatePicker({
   }, 300);
 
   return (
-    <div className="inline-grid grid-cols-2">
-      <div className="w-auto mr-4">
+    <div className="grid place-items-stretch grid-cols-2">
+      <div className="w-auto place-self-start mr-2">
         <Datepicker
           title="From"
           weekStart={1}
@@ -49,7 +49,7 @@ export default function DatePicker({
           }}
         />
       </div>
-      <div className="w-auto mr-4">
+      <div className="w-auto place-self-end mr-0 md:mr-2">
         <Datepicker
           title="To"
           name="to"

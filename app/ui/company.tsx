@@ -30,7 +30,7 @@ export default function Company({
   return (
     <>
       <Card className="w-full lg:w-8/12 mb-1">
-        <div className="sm:flex">
+        <div className="md:flex">
           <div className="flex-1">
             <p className="pb-2 md:pb-0 text-gray-900 dark:text-white font-bold">
               {name}&nbsp;
@@ -46,14 +46,14 @@ export default function Company({
           </div>
           {session?.user && (
             <>
-              <div className="flex">
-                <div className="flex-1 me-5 ms-5">
+              <div className="flex justify-end pt-2 md:pt-0">
+                <div className="me-2 md:me-5 md:ms-5">
                   <UpdateCompany id={id} />
                 </div>
-                <div className="flex-1 me-5">
+                <div className="me-2 md:me-5">
                   <EditCompany id={id} />
                 </div>
-                <div className="flex-1">
+                <div className="">
                   <DeleteAction id={id} companyTitle={name} />
                 </div>
               </div>
